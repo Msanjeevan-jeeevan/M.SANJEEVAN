@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microblogging App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .post-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post-button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        .posts {
+            margin-top: 20px;
+        }
+
+        .post {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .time {
+            font-size: 0.8em;
+            color: gray;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .like-dislike {
+            margin-top: 10px;
+        }
+
+        .like-button, .dislike-button {
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-right: 5px;
+            background-color: blue;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Microblogging App</h1>
+        <textarea id="postInput" class="post-input" placeholder="What's on your mind?" maxlength="200"></textarea>
+        <button id="postButton" class="post-button">Post</button>
+        <div id="posts" class="posts"></div>
+    </div>
+
+    <script>
+        document.getElementById('postButton').addEventListener('click', function () {
+            var input = document.getElementById('postInput');
+            var message = input.value.trim();
+            if (message) {
+                var now = new Date();
+                var time = now.toLocaleString();
+                var postDiv = document.createElement('div');
+                postDiv.className = 'post';
+                postDiv.innerHTML = `
+                    <div>${message}</div>
+                    <div class="time">${time}</div>
+                    <button class="delete-button">Delete</button>
+                    <div class="like-dislike">
+                        <br>
+                        <input type="text" placeholder=" Enter Your Commands">
+                        <br><br>
+                        <button class="like-button">Like (<span class="like-count">0</span>)</button>&#128077;
+                        <button class="dislike-button">Dislike (<span class="dislike-count">0</span>)</button>&#x1F610;&#x1F44E;
+                          
+                    </div>
+                `;
+                document.getElementById('posts').appendChild(postDiv);
+               
+                postDiv.querySelector('.delete-button').addEventListener('click', function () {
+                    postDiv.remove();
+                });
+
+                postDiv.querySelector('.like-button').addEventListener('click', function () {
+                    var likeCount = postDiv.querySelector('.like-count');
+                    likeCount.textContent = parseInt(likeCount.textContent) + 1;
+                });
+
+                postDiv.querySelector('.dislike-button').addEventListener('click', function () {
+                    var dislikeCount = postDiv.querySelector('.dislike-count');
+                    dislikeCount.textContent = parseInt(dislikeCount.textContent) + 1;
+                });
+
+                input.value = '';
+            }
+        });
+    </script>
+</body>
+
+</html>
